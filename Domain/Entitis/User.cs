@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace ExamApi.Entites;
+namespace Domain.Entitis;
  
  public class User
  {

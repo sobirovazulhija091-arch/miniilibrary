@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 namespace  Aplication.DTOs;
-public class UserDto
+public class AddUserDto
 {
     [Required]
     public string FullName{get;set;}=null!;

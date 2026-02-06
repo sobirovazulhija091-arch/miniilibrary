@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-namespace  ExamApi.DTOs;
+namespace  Aplication.DTOs;
 public class BookDto
 {
   

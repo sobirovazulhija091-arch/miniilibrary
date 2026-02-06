@@ -1,12 +1,13 @@
 using System.Net;
-using ExamApi.Entites;
+using Domain.Entites;
+using Application.DTOs;
 using Dapper;
-using Npgsql;
-using ExamApi.Interface;
-using ExamApi.Responses;
-using ExamApi.DTOs;
 using Microsoft.EntityFrameworkCore;
-
+using Npgsql;
+using Application.Interface;
+using Application.Responses;
+using AutoMapper;
+namespace Application.Services;
 public class ProfileService(ApplicationDbContext dbContext) : IProfileService
 {
     private readonly ApplicationDbContext context=dbContext;

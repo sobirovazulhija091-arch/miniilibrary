@@ -1,14 +1,17 @@
-using ExamApi.Responses;
-using ExamApi.Entites;
-using ExamApi.DTOs;
-namespace  ExamApi.Interface;
+using Application.Responses;
+using Domain.Entitis;
+using Application.DTOs;
+using System;
+using Application.Responses;
+
+
+namespace Application.Interfaces;
+
 public interface IAuthorService
 {
-    Task<Response<string>> AddAsync(AuthorDto author1);
-    Task<Response<string>> UpdateAsync(int authorid,UpdateAuthorDto author1);
-    Task<Response<string>> DeleteAsync(int authorid);
-    Task<Response<Author>> GetByIdAsync(int authorid); 
-     Task <List<Author>> GetAsync();
-
-
+    Task<Response<string>> AddAuthor(AddAuthorDto authorDto);
+    Task<Response<List<AuthorDto>>> GetAll();
+    Task<Response<AuthorDto>> GetById(int authorId);
+    Task<Response<string>> Update(UpdateAuthorDto authorDto);
+    Task<Response<string>> Delete(int authorId);
 }

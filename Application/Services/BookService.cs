@@ -1,13 +1,13 @@
-
 using System.Net;
-using ExamApi.Entites;
+using Domain.Entites;
+using Application.DTOs;
 using Dapper;
-using Npgsql;
-using ExamApi.Interface;
-using ExamApi.Responses;
-using ExamApi.DTOs;
 using Microsoft.EntityFrameworkCore;
-namespace ExamApi.Services;
+using Npgsql;
+using Application.Interface;
+using Application.Responses;
+using AutoMapper;
+namespace Application.Services;
 public class BookService(ApplicationDbContext dbContext,ILogger<Book> _logger) : IBookService
 {
     private readonly ILogger<Book> logger = _logger;
@@ -16,13 +16,13 @@ public class BookService(ApplicationDbContext dbContext,ILogger<Book> _logger) :
     {
          try
          {
-            // Book book = new Book
-            // {
-            //    Title=book1.Title,
-            //    PublishedYear=book1.PublishedYear,
-            //    Genre=book1.Genre,
-            //    AuthorId=book1.AuthorId  
-            // };
+            Book book = new Book
+            {
+               Title=book1.Title,
+               PublishedYear=book1.PublishedYear,
+               Genre=book1.Genre,
+               AuthorId=book1.AuthorId  
+            };
             //  context.Books.Add(book);
             //  await context.SaveChangesAsync();
             //  return new Response<string>(HttpStatusCode.OK,"Added successfully");
@@ -85,13 +85,13 @@ public class BookService(ApplicationDbContext dbContext,ILogger<Book> _logger) :
          try
          {
            
-            //  var bookk = await context.Books.FindAsync(bookid);
-            //  bookk.Title = book.Title;
-            //  bookk.PublishedYear = book.PublishedYear;
-            //  bookk.Genre = book.Genre; 
-            //  bookk.AuthorId = book.AuthorId; 
-            //  await context.SaveChangesAsync();
-            //    return new Response<string>(HttpStatusCode.OK,"Update successfull");
+             var bookk = await context.Books.FindAsync(bookid);
+             bookk.Title = book.Title;
+             bookk.PublishedYear = book.PublishedYear;
+             bookk.Genre = book.Genre; 
+             bookk.AuthorId = book.AuthorId; 
+             await context.SaveChangesAsync();
+               return new Response<string>(HttpStatusCode.OK,"Update successfull");
             var existing = await context.Books.FindAsync(bookid);
                _mapper.Map(book, existing);
                await context.SaveChangesAsync();

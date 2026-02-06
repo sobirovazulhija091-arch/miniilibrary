@@ -1,13 +1,13 @@
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 namespace  Aplication.DTOs;
-public class UpdateBookDto
+public class AddBookDto
 {
-    public int Id{get;set;}
+  
     [Required]
- public string Title{get;set;}=null!;
+public string Title{get;set;}=null!;
     [Required]
 public int PublishedYear{get;set;}
-    [Required]
 public string Genre{get;set;}=null!;
     [Required]
 public int AuthorId{get;set;} 

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-namespace  Aplication.DTOs;
-public class AuthorDto
+namespace Aplication.DTOs;
+public class AddAuthorDto
 {
 [Required]
     public string FullName{get;set;}=null!;

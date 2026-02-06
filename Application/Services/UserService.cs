@@ -1,14 +1,13 @@
-
 using System.Net;
-using ExamApi.Entites;
+using Domain.Entites;
+using Application.DTOs;
 using Dapper;
-using Npgsql;
-using ExamApi.Interface;
-using ExamApi.Responses;
-using ExamApi.DTOs;
 using Microsoft.EntityFrameworkCore;
-
-namespace ExamApi.Services;
+using Npgsql;
+using Application.Interface;
+using Application.Responses;
+using AutoMapper;
+namespace Application.Services;
 public class UserService(ApplicationDbContext dbContext,ILogger<User> _logger) : IUserService
 {
     private readonly ILogger<User> logger = _logger;

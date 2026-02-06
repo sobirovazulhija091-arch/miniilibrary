@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-namespace ExamApi.DTOs;
+namespace  Aplication.DTOs;
 public class UpdateUserDto
 {
      public int Id{get;set;}

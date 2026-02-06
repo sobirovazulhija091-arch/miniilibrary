@@ -1,13 +1,14 @@
-using ExamApi.Responses;
-using ExamApi.Entites;
-using ExamApi.DTOs;
-namespace  ExamApi.Interface;
+using Application.Responses;
+using Domain.Entitis;
+using Application.DTOs;
+using System;
+using Application.Responses;
+
 public interface IBookService
 {
-    Task<Response<string>> AddAsync(BookDto book1);
-    Task<Response<string>> UpdateAsync(int bookid,UpdateBookDto book);
-    Task<Response<string>> DeleteAsync(int bookid);
-    Task<Response<Book>> GetByIdAsync(int bookid); 
-     Task<Response<List<Book>>> GetAsync(); 
-
+    Task<Response<string>> AddAuthor(AddBookDto bookDto);
+    Task<Response<List<BookDto>>> GetAll();
+    Task<Response<BookDto>> GetById(int bookId);
+    Task<Response<string>> Update(UpdateBookDto bookDto);
+    Task<Response<string>> Delete(int bookId);
 }

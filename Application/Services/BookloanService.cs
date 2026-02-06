@@ -1,31 +1,31 @@
 using System.Net;
-using ExamApi.Entites;
+using Domain.Entites;
+using Application.DTOs;
 using Dapper;
-using Npgsql;
-using ExamApi.Interface;
-using ExamApi.Responses;
-using ExamApi.DTOs;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
+using Application.Interface;
+using Application.Responses;
+using AutoMapper;
+namespace Application.Services;
 
-namespace ExamApi.Services;
 public class BookloanService(ApplicationDbContext dbContext ,ILogger<Bookloan> _logger) : IBookloanService
 {
     private readonly ApplicationDbContext context = dbContext;
     private readonly ILogger<Bookloan> logger = _logger;
     public async Task<Response<string>> AddAsync(BookloanDto bookloan1)
     {
-        // Bookloan bookloan = new Bookloan
-        //     {
-        //        UserId=bookloan1.UserId,
-        //        BookId=bookloan1.BookId  
-        //     };
+        Bookloan bookloan = new Bookloan
+            {
+               UserId=bookloan1.UserId,
+               BookId=bookloan1.BookId  
+            };
         try
          {  
               var mapped =_mapper.Map<Bookloan>(bookloan1);
             await    context.Bookloans.Add(mapped);
              await context.SaveChangesAsync();    
                return new Response<string>(HttpStatusCode.OK,"Added successfull");  
-             
          }
          catch (System.Exception ex)
          {
@@ -52,7 +52,7 @@ public class BookloanService(ApplicationDbContext dbContext ,ILogger<Bookloan> _
     {
         try
         {
-            //  return new Response<List<Bookloan>>(HttpStatusCode.OK,"ok",await context.Bookloans.ToListAsync());
+             return new Response<List<Bookloan>>(HttpStatusCode.OK,"ok",await context.Bookloans.ToListAsync());
              var result = await context.Bookloans.ToListAsync();
              return _mapper.Map<List<Bookloan>>(result);
          }
@@ -81,13 +81,13 @@ public class BookloanService(ApplicationDbContext dbContext ,ILogger<Bookloan> _
          try
          {
              
-            //  var loan = await context.Bookloans.FindAsync(bookloanid);
-            //    loan.BookId=bookloan.BookId;
-            //    loan.UserId=bookloan.UserId;
-            //    loan.LoanDate=bookloan.LoanDate;
-            //    loan.ReturnDate=loan.ReturnDate; 
-            //    await context.SaveChangesAsync();
-            //    return new Response<string>(HttpStatusCode.OK,"Update successfull");  
+             var loan = await context.Bookloans.FindAsync(bookloanid);
+               loan.BookId=bookloan.BookId;
+               loan.UserId=bookloan.UserId;
+               loan.LoanDate=bookloan.LoanDate;
+               loan.ReturnDate=loan.ReturnDate; 
+               await context.SaveChangesAsync();
+               return new Response<string>(HttpStatusCode.OK,"Update successfull");  
                var existing = await context.Bookloans.FindAsync(bookloanid);
                _mapper.Map(bookloan, existing);
                await context.SaveChangesAsync();
@@ -120,4 +120,4 @@ public class BookloanService(ApplicationDbContext dbContext ,ILogger<Bookloan> _
           }
          }
     
-}
+ }

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ExamApi.Entites;
+namespace Domain.Entitis;
 public class Author{
 public int Id{get;set;}
 [MaxLength(120),Required]

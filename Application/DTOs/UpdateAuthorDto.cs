@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-namespace ExamApi.DTOs;
+namespace  Aplication.DTOs;
 public class UpdateAuthorDto
 {
     
