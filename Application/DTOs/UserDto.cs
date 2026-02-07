@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-namespace  Aplication.DTOs;
+namespace Application.DTOs;
 public class UserDto
 {
     [Required]

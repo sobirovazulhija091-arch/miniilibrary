@@ -1,5 +1,5 @@
 using System.Net;
-namespace  Application.Responses;
+namespace Application.Responses;
 public class Response<T>
 {
 

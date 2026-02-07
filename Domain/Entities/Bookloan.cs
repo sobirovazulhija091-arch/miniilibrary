@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 
-namespace Domain.Entitis;
 
+namespace  Domain.Entities;  
 public class Bookloan
 {
  public int Id{get;set;} 
@@ -12,6 +12,6 @@ public class Bookloan
  [JsonIgnore]
  public User? User{get;set;}
  public DateTime LoanDate{get;set;}=DateTime.UtcNow;
- public DateTime ReturnDate{get;set;}=DateTime.UtcNow;
+ public DateTime ReturnDate{get;set;}
  
 }

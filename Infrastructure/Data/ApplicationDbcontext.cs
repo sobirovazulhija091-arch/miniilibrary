@@ -1,8 +1,4 @@
-
-using Microsoft.EntityFrameworkCore;
-using Npgsql;
-using ExamApi.Entites;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+namespace Infrastructure.Data;
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): DbContext(options)
 {
     public DbSet<Author> Authors {get; set;}

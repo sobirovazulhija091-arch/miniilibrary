@@ -1,10 +1,4 @@
 
-using ExamApi.Entites;
-using ExamApi.Interface;
-using ExamApi.Services;
-using ExamApi.Responses;
-using Microsoft.AspNetCore.Mvc;
-using ExamApi.DTOs;
 namespace ExamApi.Controller;
 
 [Route("api/[controller]")]
@@ -17,9 +11,9 @@ public class ProfileController(IProfileService profileService):ControllerBase
          return await profileService.Add(userId,Name);
     }
     [HttpGet]
-    public async Task<Response<List<Profile>>> GetAll()
+    public async Task<PageResult<Profile>> GetAll(ProfileFilter filter,PagedQuery pagedQuery)
     {
-        return await profileService.GetAll();
+        return await profileService.GetAll(filtre,pagedQuery);
     }
     
 }

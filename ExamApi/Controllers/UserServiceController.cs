@@ -1,10 +1,4 @@
-// using ExamApi.Data;
-using ExamApi.Entites;
-using ExamApi.Interface;
-// using ExamApi.Services;
-using ExamApi.Responses;
-using Microsoft.AspNetCore.Mvc;
-using ExamApi.DTOs;
+
 namespace ExamApi.Controller;
 
 [Route("api/[controller]")]
@@ -22,12 +16,12 @@ public class UserServiceController(IUserService userService):ControllerBase
         return await userService.DeleteAsync(userid);
     }
     [HttpGet]
-    public async Task<Response<List<User>>> GetAsync()
+    public async Task<PagedResult<User>> GetAll(UserFilter filter,PagedQuery pagedQuery)
     {
-        return await userService.GetAsync();
+        return await userService.GetAsync(filter,pagedQuery);
     }
     [HttpGet("userid")]
-     public async Task<Response<User>> GetByIdAsync(int userid)
+     public async Task<Response<UserDto>> GetByIdAsync(int userid)
     {
       return await userService.GetByIdAsync(userid);   
     }

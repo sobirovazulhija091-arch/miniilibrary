@@ -1,16 +1,9 @@
 using System.Net;
-using Domain.Entites;
-using Application.DTOs;
-using Dapper;
-using Microsoft.EntityFrameworkCore;
-using Npgsql;
-using Application.Interface;
-using Application.Responses;
-using AutoMapper;
-namespace Application.Services;
-public class BookService(ApplicationDbContext dbContext,ILogger<Book> _logger) : IBookService
+namespace Infrastructure.Service;
+
+public class BookService(ApplicationDbContext dbContext) : IBookService
 {
-    private readonly ILogger<Book> logger = _logger;
+
     private readonly ApplicationDbContext context = dbContext;
     public async  Task<Response<string>> AddAsync(BookDto book1)
     {
@@ -52,20 +45,46 @@ public class BookService(ApplicationDbContext dbContext,ILogger<Book> _logger) :
              return new Response<string>(HttpStatusCode.InternalServerError,"Internal Server Error");
             }
     }
-    public  async Task<Response<List<Book>>> GetAsync()
+    public  async  Task<PagedResult<Book>> GetBooks(BookFilter filter, PagedQuery pagedQuery)
     {
-          try
-          {
-            // var res= context.Books.Include(a=>a.Bookloans).ToList();
-            // return new Response<List<Book>>(HttpStatusCode.OK,"Ok", res);
-             var result = await context.Books.ToListAsync();
-             return _mapper.Map<List<Book>>(result);
-          }
-          catch (System.Exception ex)
-          {
-             System.Console.WriteLine(ex);
-            return new Response<List<Book>>(HttpStatusCode.InternalServerError, $"Something went wrong!");
-          }
+      /*
+         //  try
+         //  {
+         //    // var res= context.Books.Include(a=>a.Bookloans).ToList();
+         //    // return new Response<List<Book>>(HttpStatusCode.OK,"Ok", res);
+         //     var result = await context.Books.ToListAsync();
+         //     return _mapper.Map<List<Book>>(result);
+         //  }
+         //  catch (System.Exception ex)
+         //  {
+         //     System.Console.WriteLine(ex);
+         //    return new Response<List<Book>>(HttpStatusCode.InternalServerError, $"Something went wrong!");
+         //  }
+         */
+        IQueryable<Book> query = context.Books.AsNoTracking();
+      if (filter.Title != null)
+      {
+         query = query.Where(x=>x.Title==filter.Title);
+      }
+      if (filter.PublishedYear > 0)
+      {
+         query = query.Where(x=>x.PublishedYear==filter.PublishedYear);
+      }
+      var total = await query.CountAsync();
+      if(pagedQuery.Page!=0 & pagedQuery.PageSize != 0)
+      {
+         query = query.Skip((pagedQuery.Page-1)*pagedQuery.PageSize).Take(pagedQuery.PageSize);
+      }
+      var books = query.ToList();
+      var response =  new PagedResult<Book>()
+      {
+           Items = books,
+           Page = pagedQuery.Page,
+           PageSize = pagedQuery.PageSize,
+           TotalCount = total,
+           TotalPages = total/pagedQuery.PageSize
+      };
+      return response;
     }
     public  async Task<Response<Book>> GetByIdAsync(int bookid)
 {

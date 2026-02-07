@@ -1,29 +1,21 @@
 using System.Net;
-using Domain.Entites;
-using Application.DTOs;
-using Dapper;
-using Microsoft.EntityFrameworkCore;
-using Npgsql;
-using Application.Interface;
-using Application.Responses;
-using AutoMapper;
-namespace Application.Services;
-
-public class BookloanService(ApplicationDbContext dbContext ,ILogger<Bookloan> _logger) : IBookloanService
+namespace Infrastructure.Service;
+public class BookloanService(ApplicationDbContext dbContext) : IBookloanService
 {
     private readonly ApplicationDbContext context = dbContext;
-    private readonly ILogger<Bookloan> logger = _logger;
+   
     public async Task<Response<string>> AddAsync(BookloanDto bookloan1)
     {
         Bookloan bookloan = new Bookloan
             {
                UserId=bookloan1.UserId,
-               BookId=bookloan1.BookId  
+               BookId=bookloan1.BookId ,
+                ReturnDate=bookloan1.ReturnDate   
             };
         try
          {  
               var mapped =_mapper.Map<Bookloan>(bookloan1);
-            await    context.Bookloans.Add(mapped);
+            await  context.Bookloans.Add(mapped);
              await context.SaveChangesAsync();    
                return new Response<string>(HttpStatusCode.OK,"Added successfull");  
          }
@@ -48,22 +40,45 @@ public class BookloanService(ApplicationDbContext dbContext ,ILogger<Bookloan> _
              return new Response<string>(HttpStatusCode.InternalServerError,"Internal Server Error");
          }
     }
-    public async Task<Response<List<Bookloan>>> GetAsync()
+    public async  Task<PagedResult<Bookloan>> GetAll(BookloanFilter filter,PagedQuery pagedQuery)
     {
-        try
-        {
-             return new Response<List<Bookloan>>(HttpStatusCode.OK,"ok",await context.Bookloans.ToListAsync());
-             var result = await context.Bookloans.ToListAsync();
-             return _mapper.Map<List<Bookloan>>(result);
-         }
-        catch (System.Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-            return new Response<List<Bookloan>>(HttpStatusCode.InternalServerError, $"Something went wrong!");
+        /* try
+        // {
+        //      return new Response<List<Bookloan>>(HttpStatusCode.OK,"ok",await context.Bookloans.ToListAsync());
+        //      var result = await context.Bookloans.ToListAsync();
+        //      return _mapper.Map<List<Bookloan>>(result);
+        //  }
+        // catch (System.Exception ex)
+        // {
+        //     Console.WriteLine(ex.Message);
+        //     return new Response<List<Bookloan>>(HttpStatusCode.InternalServerError, $"Something went wrong!");
+        } */
+       IQueryable<Bookloan> query =  context.Bookloans.AsNoTracking();
+       if(filter.LoanDate>0)
+       {
+        query =query.Where(x=>x.LoanDate==filter.LoanDate);
+      }
+       if(filter.ReturnDate>0 && filter.ReturnDate>filter.LoanDate)
+       {
+        query=query.Where(x=>x.ReturnDate==filter.ReturnDate);
         }
-              
+       var total= await query.CountAsync();
+       if(pagedQuery.Page!=0 && pagedQuery.PageSize!=0)
+        {
+            query = query.Skip((pagedQuery.Page-1)*pagedQuery.PageSize).Take(pagedQuery.PageSize);
+        }
+        var  booklaon = query.ToList();
+        var response =  new PagedResult<Bookloan>()
+      {
+           Items =  booklaon,
+           Page = pagedQuery.Page,
+           PageSize = pagedQuery.PageSize,
+           TotalCount = total,
+           TotalPages = total/pagedQuery.PageSize
+      };
+      return response;
     }
-    public  async Task<Response<Bookloan>> GetByIdAsync(int bookloanid)
+    public  async Task<Response<BookloanDto>> GetByIdAsync(int bookloanid)
     {
         try
          {

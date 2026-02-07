@@ -1,10 +1,4 @@
-// using ExamApi.Data;
-using ExamApi.Entites;
-using ExamApi.Interface;
-// using ExamApi.Services;
-using ExamApi.Responses;
-using Microsoft.AspNetCore.Mvc;
-using ExamApi.DTOs;
+
 namespace ExamApi.Controller;
 
 [Route("api/[controller]")]
@@ -22,12 +16,12 @@ public class BookloanServiceControllers(IBookloanService bookloanService):Contro
         return await  bookloanService.DeleteAsync(bookloanid);
     }
     [HttpGet]
-     public async Task<Response<List<Bookloan>>> GetAsync()
+     public async Task<PagedResult<Bookloan>> GetAll(BookloanFilter filter,PageQuery pageQuery)
     {
-        return await bookloanService.GetAsync();
+        return await bookloanService.GetAsync(filter,pageQuery);
     }
     [HttpGet("bookloanid")]
-     public  async Task<Response<Bookloan>> GetByIdAsync(int bookloanid)
+     public  async Task<Response<BookloanDto>> GetByIdAsync(int bookloanid)
     {
         return await bookloanService.GetByIdAsync(bookloanid);
     }

@@ -1,4 +1,4 @@
-namespace  Aplication.DTOs;
+namespace Application.DTOs;
 public class ProfileDto
 {
      public int UserId{get;set;}

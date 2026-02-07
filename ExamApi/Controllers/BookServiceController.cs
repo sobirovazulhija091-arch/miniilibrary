@@ -1,10 +1,4 @@
-// using ExamApi.Data;
-using ExamApi.Entites;
-using ExamApi.Interface;
-// using ExamApi.Services;
-using ExamApi.Responses;
-using Microsoft.AspNetCore.Mvc;
-using ExamApi.DTOs;
+
 namespace ExamApi.Controller;
 
 [Route("api/[controller]")]
@@ -22,12 +16,12 @@ public class BookServiceController(IBookService  bookService):ControllerBase
         return await bookService.DeleteAsync(bookid);
     }
     [HttpGet]
-    public  async Task<Response<List<Book>>> GetAsync()
+    public async  Task<PagedResult<Book>> GetBooks(BookFilter filter, PagedQuery pagedQuery)
     {
-        return await bookService.GetAsync();
+        return await bookService.GetAsync(filter,pagedQuery);
     }
     [HttpGet("bookid")]
-    public  async Task<Response<Book>> GetByIdAsync(int bookid)
+    public  async Task<Response<BookDto>> GetByIdAsync(int bookid)
     {
         return await bookService.GetByIdAsync(bookid);
     }

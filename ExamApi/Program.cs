@@ -1,11 +1,6 @@
-using ExamApi.Middlewares;
-using Microsoft.EntityFrameworkCore;
-using ExamApi.Interface;
-using ExamApi.MappingProflie;
-using ExamApi.Services;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options=> options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IAuthorService,AuthorService>();
+// builder.Services.AddScoped<IAuthorService,AuthorService>();
 builder.Services.AddScoped<IBookService,BookService>();
 builder.Services.AddScoped<IUserService,UserService>();
 builder.Services.AddScoped<IProfileService,ProfileService>();

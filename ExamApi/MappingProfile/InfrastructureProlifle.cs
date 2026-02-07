@@ -7,6 +7,6 @@ public class InfrastructureProfile : AutoMapper.Profile
     {
         CreateMap<Author, AuthorDto>();
         CreateMap<AuthorDto, Author>();
-         CreateMap<UpdateAuthorDto, Author>();
+        CreateMap<UpdateAuthorDto, Author>();
     }
 }
