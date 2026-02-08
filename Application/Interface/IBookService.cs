@@ -1,8 +1,8 @@
-
-namespace Application.Interface;
 using Application.DTOs;
-
-
+using  Domain.Filter;  
+using Application.Responses;
+ using Domain.Entities;
+namespace Application.Interface;
 public interface IBookService
 {
     Task<Response<string>> AddAuthor(AddBookDto bookDto);

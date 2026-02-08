@@ -1,5 +1,8 @@
-namespace Application.Interface;
+using  Domain.Filter;  
 using Application.DTOs;
+using Application.Responses;
+ using Domain.Entities;
+namespace Application.Interface;
 public interface IAuthorService
 {
     Task<Response<string>> AddAuthor(AddAuthorDto authorDto);
