@@ -1,5 +1,6 @@
 
 namespace Application.Interface;
+using Application.DTOs;
 
 
 public interface IBookService

@@ -1,4 +1,6 @@
 namespace Application.Interface;
+using Application.DTOs;
+
 public interface IBookloanService
 {
     Task<Response<string>> AddAuthor(AddBookloanDto bloanDto);

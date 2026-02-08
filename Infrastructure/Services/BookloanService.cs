@@ -103,10 +103,10 @@ public class BookloanService(ApplicationDbContext dbContext) : IBookloanService
                loan.ReturnDate=loan.ReturnDate; 
                await context.SaveChangesAsync();
                return new Response<string>(HttpStatusCode.OK,"Update successfull");  
-               var existing = await context.Bookloans.FindAsync(bookloanid);
-               _mapper.Map(bookloan, existing);
-               await context.SaveChangesAsync();
-               return new Response<string>(HttpStatusCode.OK, "updated successfully!");
+            //    var existing = await context.Bookloans.FindAsync(bookloanid);
+            //    _mapper.Map(bookloan, existing);
+            //    await context.SaveChangesAsync();
+            //    return new Response<string>(HttpStatusCode.OK, "updated successfully!");
          }
          catch (System.Exception ex)
          {

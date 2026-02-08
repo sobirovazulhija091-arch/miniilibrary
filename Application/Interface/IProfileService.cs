@@ -1,4 +1,5 @@
 namespace Application.Interface;
+using Application.DTOs;
 
 public interface IProfileService
 {
